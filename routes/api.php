@@ -21,5 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::get('/latest-result',[LottoAPIController::class,'latestResult']);
 Route::get('/latest-results/{game}',[LottoAPIController::class,'lottoResults']);
-Route::get('/stats',[LottoAPIController::class,'stats']);
+Route::get('/stats',[LottoResultsController::class,'stats']);
 Route::post('/search-results',[LottoResultsController::class,'searchResults']);

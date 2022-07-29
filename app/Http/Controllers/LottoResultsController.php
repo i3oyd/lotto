@@ -44,7 +44,7 @@ class LottoResultsController extends Controller
 
     public function stats()
     {
-        $q_results = DB::table('lotto_res_649')->pluck('combination')->toArray();
+        $q_results = DB::table('lotto_res_642')->pluck('combination')->toArray();
         arsort($q_results);
         $r_results = [];
         foreach($q_results as $q_result){
@@ -56,7 +56,7 @@ class LottoResultsController extends Controller
         arsort($stats,SORT_NUMERIC);
 
         $data = [];
-        $game = 'Superlotto 6/49';
+        $game = 'Lotto 6/42';
         foreach($stats as $key => $value){
             $data[] = array(
                 'game' => $game,
@@ -66,8 +66,8 @@ class LottoResultsController extends Controller
             );
         }
 
-        // DB::table('stat')->where('game',$game)->delete();
-        // DB::table('stat')->insert($data);
+        DB::table('stat')->where('game',$game)->delete();
+        DB::table('stat')->insert($data);
 
         // echo '<pre>',print_r($stats,1);
         // exit();
@@ -130,16 +130,16 @@ class LottoResultsController extends Controller
             }
             $i++;
         }
-        return $data;
+        // return $data;
 
-        //LatestResults::truncate();
-        //LatestResults::insert($data);
+        LatestResults::truncate();
+        LatestResults::insert($data);
     }
 
     public function importCSV(){
         
         $results  = [];
-        if (($handle = fopen("data/lotto_6_49.csv", "r")) !== FALSE) {
+        if (($handle = fopen("data/lotto_6_42.csv", "r")) !== FALSE) {
             $i = 1;
             while (($data = fgetcsv($handle, 100, ",")) !== FALSE) {
                 if($i <> 1){
@@ -162,9 +162,9 @@ class LottoResultsController extends Controller
                 $i++;
             }
             fclose($handle);
-            //return $results;
+            // return $results;
             
-           // DB::table('lotto_res_649')->insert($results);
+           DB::table('lotto_res_642')->insert($results);
         }
         return 'empty';
     }
